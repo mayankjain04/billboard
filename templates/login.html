@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Log-in
+{% endblock %}
+
+{% block main %}
+<div class="container">
+    <form class="form-control">
+        <label for="username">Username</label>
+        <input class="input" type="text" id="username" name="username" placeholder="Username">
+        <label for="password">Password</label>
+        <input class="input" type="password" id="password" name="password" placeholder="Password">
+        <input type="submit" class="btn btn-primary"> 
+    </form>
+</div>
+{% endblock %}
