@@ -1,0 +1,65 @@
+{% extends "layout.html" %}
+
+{% block title %}
+IGEC Billboard
+{% endblock %}
+
+{% block main %}
+      <!-- Alert Container -->
+      <div class="alert-container">
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+          Warning: no moderation is done so continue on your own risk. strong and suggestive text may be present. You have been warned.
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      </div>
+
+    <div class="container">
+        <h1 class="header text-center">Bulletin board</h1>
+        <table class="table mb-3 table-striped table-bordered">
+            <div class="row">
+                <tr>
+                    <!-- Assuming table1 has columns 'id' and 'name' -->
+                    <th class="thead">S No</th>
+                    <th class="thead">Username</th>
+                    <th class="thead">Text</th>
+                </tr>
+            </div>
+            {% for row in table %}
+            <div class="row">
+                <tr [class.golden-highlight]="row['username'] === 'admin'">
+                    <td class="col-1">{{ row['id'] }}</td>
+                    <td class="col-2">{{ row['username'] }}</td>
+                    <td class="col-9">{{ row['name'] }}</td>
+                </tr>
+            </div>
+            {% endfor %}
+        </table>
+        <div class="justify-content-center text-center">
+            <h4 class="text-center">Enter Text</h4>
+            <form class="text-center" name="form1" method="post" action="/">
+                <div class="form-group">
+                    <div class="row gx-0">
+                        <div class="col-12 col-md-3 col-mb-3">
+                                <input disabled class = "form-control inline" name="username" value="Anonymous" placeholder="Anonymous">
+                                <input hidden class = "form-control inline" name="username" value="Anonymous" placeholder="Anonymous">
+                        </div>
+                        <div class="col-12 col-md-9 col-mb-9">
+                             <input class = "form-control" name="name" id="name" placeholder="Text">
+                        </div>
+                    </div>
+                    <button class="my-2 btn btn-primary" type="submit">submit</button>
+                </div>
+            </form>
+            <a class="my-1 btn btn-primary" href="/login">Log in</a>
+            <a class="my-1 btn btn-primary" href="/error">Top</a>
+        </div>
+    </div>
+    <script>
+        // Script to close the alert after a certain time (optional)
+        $(document).ready(function() {
+          window.setTimeout(function() {
+            $(".alert").alert('close');
+          }, 15000); // 15000 milliseconds = 15 seconds
+        });
+    </script>
+{% endblock %}
