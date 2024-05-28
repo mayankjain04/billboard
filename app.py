@@ -2,12 +2,28 @@ from flask import Flask, render_template, request, redirect
 import pymysql
 
 app = Flask(__name__)
-
+"""
 # Database connection details
 host = 'Billboard.mysql.pythonanywhere-services.com'
 user = 'Billboard'
 password = 'local123'
 db = 'Billboard$default'
+
+def get_db_connection():
+    connection = pymysql.connect(
+        host=host,
+        user=user,
+        password=password,
+        database=db
+    )
+    return connection
+"""
+
+# local connection
+host = 'localhost'
+user = 'root'
+password = 'local@123'
+db = 'Billboard'
 
 def get_db_connection():
     connection = pymysql.connect(
