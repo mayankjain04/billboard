@@ -6,7 +6,7 @@ Log-in
 
 {% block main %}
 <div class="container-fluid text-center">
-    <form action="/login" method="post" class="form-control w-auto mx-auto mt-5 p-4">
+    <form action="/register" class="form-control mx-auto mt-5 p-4 w-auto"  method="post">
         <div class="form-group my-2">
             <input class="form-control mx-auto w-auto" type="text" id="username" name="username" placeholder="Username">
         </div>
@@ -14,9 +14,11 @@ Log-in
             <input class="form-control mx-auto w-auto" type="password" id="password" name="password" placeholder="Password">
         </div>
         <div class="form-group my-2">
+            <input class="form-control mx-auto w-auto" type="password" id="confirm" name="confirm" placeholder="Confirm Password">
+        </div>
+        <div class="form-group my-2">
             <input type="submit" class="btn btn-primary">
         </div>
     </form>
-    <a class="my-2 link-danger" href="/register">new user? register</a>
 </div>
 {% endblock %}

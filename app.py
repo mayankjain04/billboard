@@ -60,11 +60,27 @@ def index():
         table = db.fetchall()
         db.close()
         connection.close()
-        return render_template("show.html", table=table)
+        return render_template("index.html", table=table)
 
 @app.route('/error')
 def error():
     return render_template("error.html", message="INVALID DATA")
+
+@app.route('/login', methods=["GET", "POST"])
+def login():
+    if request.method == "POST":
+        # connection = get_db_connection()
+        # db = connection.cursor(pymysql.cursors.DictCursor)
+        return redirect('/')
+    else:
+        return render_template("login.html")
+
+@app.route('/register', methods=["GET", "POST"])
+def register():
+    if request.method == "POST":
+        return redirect('/login')
+    else:
+        return render_template("register.html")
 
 if __name__ == '__main__':
     app.run()
