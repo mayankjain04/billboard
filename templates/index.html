@@ -8,7 +8,7 @@ IGEC Billboard
       <!-- Alert Container -->
       <div class="alert-container">
         <div class="alert alert-success alert-dismissible fade show" role="alert">
-          Warning: no moderation is done so continue on your own risk. strong and suggestive text may be present. You have been warned.
+          Warning <span id="usernameSpan" class="text-danger"></span>: no moderation is done so continue on your own risk. strong and suggestive text may be present. You have been warned.
           <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
       </div>
@@ -40,17 +40,16 @@ IGEC Billboard
                 <div class="form-group">
                     <div class="row gx-0">
                         <div class="col-12 col-md-3 col-mb-3">
-                                <input disabled class = "form-control inline" name="username" value="Anonymous" placeholder="Anonymous">
-                                <input hidden class = "form-control inline" name="username" value="Anonymous" placeholder="Anonymous">
+                                <input disabled class = "form-control inline" id="username" name="username">
                         </div>
                         <div class="col-12 col-md-9 col-mb-9">
-                             <input class = "form-control" name="name" id="name" placeholder="Text">
+                             <input autocomplete="off" autofocus class="form-control" name="text" id="text" placeholder="Text">
                         </div>
                     </div>
                     <button class="my-2 btn btn-primary" type="submit">submit</button>
                 </div>
             </form>
-            <a class="my-1 btn btn-primary" href="/login">Log in</a>
+            <a class="my-1 btn btn-primary" href="/login">{{"Log out" if 'user_id' in session else "Log in"}}</a>
             <a class="my-1 btn btn-primary" href="/error">Top</a>
         </div>
     </div>
@@ -61,5 +60,10 @@ IGEC Billboard
             $(".alert").alert('close');
           }, 15000); // 15000 milliseconds = 15 seconds
         });
+        var usernameval = '{{session["username"] if "username" in session else "Anonymous"}}'
+        document.getElementById("username").value = usernameval;
+        document.getElementById("username").placeholder = usernameval;
+        document.getElementById("usernameSpan").innerText = '{{session["username"] if "username" in session else ""}}';
+
     </script>
 {% endblock %}

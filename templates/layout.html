@@ -27,7 +27,7 @@
                         <a class="nav-link active" href="/">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="/login">Log-in</a>
+                        <a class="nav-link active" href="/login">{{"Log out" if 'user_id' in session else "Log in"}}</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link active" href="/error">Message</a>
