@@ -8,7 +8,7 @@ IGEC Billboard
       <!-- Alert Container -->
       <div class="alert-container">
         <div class="alert alert-success alert-dismissible fade show" role="alert">
-          Warning <span id="usernameSpan" class="text-danger"></span>: no moderation is done so continue on your own risk. strong and suggestive text may be present. You have been warned.
+          Warning<span id="usernameSpan" class="text-danger"></span>: no moderation is done so continue on your own risk. strong and suggestive text may be present. You have been warned.
           <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
       </div>
@@ -40,7 +40,7 @@ IGEC Billboard
                 <div class="form-group">
                     <div class="row gx-0">
                         <div class="col-12 col-md-3 col-mb-3">
-                                <input disabled class = "form-control inline" id="username" name="username">
+                                <input disabled class = "text-warning form-control inline" id="username" name="username">
                         </div>
                         <div class="col-12 col-md-9 col-mb-9">
                              <input autocomplete="off" autofocus class="form-control" name="text" id="text" placeholder="Text">
@@ -50,7 +50,7 @@ IGEC Billboard
                 </div>
             </form>
             <a class="my-1 btn btn-primary" href="/login">{{"Log out" if 'user_id' in session else "Log in"}}</a>
-            <a class="my-1 btn btn-primary" href="/error">Top</a>
+            <button class="my-1 btn btn-primary" id="scrollTop">Top</button>
         </div>
     </div>
     <script>
@@ -63,7 +63,12 @@ IGEC Billboard
         var usernameval = '{{session["username"] if "username" in session else "Anonymous"}}'
         document.getElementById("username").value = usernameval;
         document.getElementById("username").placeholder = usernameval;
-        document.getElementById("usernameSpan").innerText = '{{session["username"] if "username" in session else ""}}';
-
+        document.getElementById("usernameSpan").innerText = '{{" " + session["username"] if "username" in session else ""}}';
+        document.getElementById("scrollTop").onclick = function() {
+            window.scrollTo({ top: 0, behavior: "smooth"});
+        };
+        document.getElementById("scrollBottom").onclick = function() {
+            window.scrollTo({top: document.body.scrollHeight, behavior: "smooth"});
+        };
     </script>
 {% endblock %}

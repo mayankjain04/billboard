@@ -4,7 +4,7 @@ from helpers import login_required
 import pymysql
 
 app = Flask(__name__)
-"""
+
 # Database connection details
 host = 'Billboard.mysql.pythonanywhere-services.com'
 user = 'Billboard'
@@ -19,7 +19,7 @@ def get_db_connection():
         database=db
     )
     return connection
-"""
+
 
 
 # Configure session to use filesystem (instead of signed cookies)
@@ -120,7 +120,8 @@ def register():
             result = db.fetchone()
             connection.commit()
             session['user_id'] = result['user_id']
-            return redirect('/')
+            session['username'] = username
+            return render_template('login.html', message="registered successfully")
         else:
             return render_template("register.html")
     finally:

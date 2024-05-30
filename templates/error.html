@@ -1,9 +1,9 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>ERROR</title>
-</head>
-<body>
-    <h1>{{message | default("feature not available")}}</h1>
-</body>
-</html>
+{% extends "layout.html" %}
+
+{% block title %}
+ERROR
+{% endblock %}
+
+{% block main %}
+    <h1 class="header text-warning text-center my-2">{{message | default("feature not available")}}</h1>
+{% endblock %}
