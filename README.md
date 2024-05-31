@@ -15,7 +15,7 @@ These features are yet to be implemented:
 * dms and support for removal
 * account deletion.
 
-# Quickstart
+## Quickstart
 The main branch can be cloned directly in your pythonanywhere directory. 
 * Clone main in your pythonanywhere repo
 * set up database and execute `queries.sql`
@@ -26,7 +26,7 @@ If you want to work on Billboard in a local environment, follow these steps.
    * Configure host in `app.py`
    * Execute `queries.sql`
 
-# Connect
+## Connect
 * [LinkedIn](https://www.linkedin.com/in/mayank-jain-395bb3295?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app)
 
  
