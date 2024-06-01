@@ -19,7 +19,8 @@ def get_db_connection():
         database=db
     )
     return connection
-"""
+    
+
 
 # Configure session to use filesystem (instead of signed cookies)
 app.config["SESSION_PERMANENT"] = False
