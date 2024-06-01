@@ -4,7 +4,7 @@ from helpers import login_required
 import pymysql
 
 app = Flask(__name__)
-
+"""
 # Database connection details
 host = 'Billboard.mysql.pythonanywhere-services.com'
 user = 'Billboard'
@@ -19,8 +19,7 @@ def get_db_connection():
         database=db
     )
     return connection
-
-
+"""
 
 # Configure session to use filesystem (instead of signed cookies)
 app.config["SESSION_PERMANENT"] = False
@@ -47,7 +46,7 @@ def index():
         if not text:
             print("enter valid data")
             return redirect("/error")
-        db.execute("INSERT INTO test(username, name) VALUES(%s, %s)", (username, text,))
+        db.execute("INSERT INTO test(username, text) VALUES(%s, %s)", (username, text,))
         connection.commit()
         table = db.fetchall()
         db.close()
@@ -56,7 +55,7 @@ def index():
     else:
         connection = get_db_connection()
         db = connection.cursor(pymysql.cursors.DictCursor)  # Use DictCursor to get dictionaries instead of tuples
-        db.execute("SELECT Row_Number() OVER (ORDER BY id) AS id, username, name FROM test")
+        db.execute("SELECT Row_Number() OVER (ORDER BY id) AS id, username, text, time FROM test")
         table = db.fetchall()
         db.close()
         connection.close()
@@ -70,6 +69,7 @@ def error():
 def login():
     try:
         if request.method == "POST":
+            # checking for the validity of data submitted by login
             session.clear()
             connection = get_db_connection()
             db = connection.cursor(pymysql.cursors.DictCursor)
@@ -78,18 +78,20 @@ def login():
             db.execute("SELECT * FROM users WHERE username = %s", (username,))
             result = db.fetchone()
             if not (username or password):
-                return render_template("error.html", message="please enter valid data")
+                return render_template("login.html", message="please enter valid data")
             if not result:
-                return render_template("error.html", message="user not registered")
+                return render_template("login.html", message="user not registered")
             if not result['password'] == password:
-                return render_template("error.html", message="incorrect password")
+                return render_template("login.html", message="incorrect password")
             session['user_id'] = result['user_id']
             session['username'] = result['username']
             return redirect('/')
         else:
             if 'user_id' in session:
+                # this happens when the user is trying to log out
                 session.clear()
                 return redirect("/")
+            # this happens when user is trying to log in
             return render_template("login.html")
     finally:
         if 'db' in locals():
@@ -130,5 +132,54 @@ def register():
         if 'connection' in locals():
             connection.close()
 
+@app.route("/profile", methods=["GET", "POST"])
+@login_required
+def profile():
+    try:
+        if request.method=='POST':
+            connection = get_db_connection()
+            db = connection.cursor(pymysql.cursors.DictCursor)
+            db.execute("DELETE FROM test WHERE id = %s", (request.form.get('row_id', '')))
+            connection.commit()
+            if request.form.get('NewName'):
+                print('change name')
+                db.execute("UPDATE users SET username = %s WHERE user_id = %s", (request.form.get('NewName'), session['user_id'], ))
+                connection.commit()
+                db.execute("UPDATE test SET username = %s WHERE username = %s", (request.form.get('NewName'), session['username'], ))
+                connection.commit()
+                session['username'] = request.form.get('NewName')
+            if request.form.get('NewPass'):
+                print('change Pass')
+                db.execute("UPDATE users SET password = %s WHERE user_id = %s", (request.form.get('NewPass'), session['user_id'], ))
+                connection.commit()
+            print(request.form.get('row_id'))
+            return redirect('/profile')
+        else:
+            connection = get_db_connection()
+            db = connection.cursor(pymysql.cursors.DictCursor)
+            db.execute("WITH allrows AS (SELECT Row_Number() OVER (ORDER BY id) AS row_id, id, username, text, time FROM test) SELECT * FROM allrows WHERE username = %s", (session['username']))
+            table = db.fetchall()
+            message = request.form.get('deleterow')
+            return render_template("profile.html", table=table, message=message)
+    finally:
+        if 'db' in locals():
+            db.close()
+        if 'connection' in locals():
+            connection.close
+
+@app.route("/support")
+@login_required
+def support():
+    try:
+        if request.method=='POST':
+            return render_template("profile.html")
+        else:
+            return render_template("profile.html")
+    finally:
+        if 'db' in locals():
+            db.close()
+        if 'connection' in locals():
+            connection.close
+
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
