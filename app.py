@@ -4,7 +4,7 @@ from helpers import login_required
 import pymysql
 
 app = Flask(__name__)
-"""
+
 # Database connection details
 host = 'Billboard.mysql.pythonanywhere-services.com'
 user = 'Billboard'
@@ -19,20 +19,8 @@ def get_db_connection():
         database=db
     )
     return connection
-"""
-# local connection
-host = 'localhost'
-user = 'root'
-password = 'local@123'
-db = 'Billboard'
-def get_db_connection():
-    connection = pymysql.connect(
-        host=host,
-        user=user,
-        password=password,
-        database=db
-    )
-    return connection
+
+
 
 # Configure session to use filesystem (instead of signed cookies)
 app.config["SESSION_PERMANENT"] = False
