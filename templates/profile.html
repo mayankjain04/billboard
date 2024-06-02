@@ -14,9 +14,10 @@ Profile
 
 {% block main %}
 <div class="container-fluid text-center">
-    <h1 class="header text-success">{{session["username"] + ": " if "username" in session}}Profile</h1>
+    <h1 class="header text-success">Profile: {{ table[0]['username'] }}</h1>
 </div>
-<form action="/profile" id="NameChange" method="post" class="form-control w-auto mx-auto mt-3 p-2">
+{% if session['username'] == table[0]['username'] %}
+<form action="/profile" style="border: 0;" id="NameChange" method="post" class="form-control w-auto mx-auto mt-3 p-2">
     <div class="container">
         <div class="row align-items-center justify-content-center">
             <div class="col-auto">
@@ -33,7 +34,7 @@ Profile
         </div>
     </div>
 </form>
-<form action="/profile" id="NameChange" method="post" class="form-control w-auto mx-auto mt-3 p-2">
+<form action="/profile" style="border: 0;" id="NameChange" method="post" class="form-control w-auto mx-auto mt-3 p-2">
     <div class="container">
         <div class="row align-items-center justify-content-center">
             <div class="col-auto">
@@ -50,6 +51,7 @@ Profile
         </div>
     </div>
 </form>
+{% endif %}
 
 </hr>
 <div class="container">
@@ -61,7 +63,9 @@ Profile
                 <th class="thead col-2">Username</th>
                 <th class="thead col-auto">Text</th>
                 <th class="thead col-auto">Time</th>
+                {% if session['username'] == table[0]['username'] %}
                 <th class="thead col-auto">Delete</th>
+                {% endif %}
             </tr>
         </div>
         {% for row in table %}
@@ -71,9 +75,11 @@ Profile
                 <td class="col-2">{{ row['username'] }}</td>
                 <td class="col-auto text-start">{{ row['text'] }}</td>
                 <td class="col-2">{{ row['time'] }}</td>
+                {% if session['username'] == table[0]['username'] %}
                 <td class="col-1">
                     <button class="btn btn-outline-danger" type="button" onclick="deleteRow('{{ row['id'] }}')" id="deletebtn">Delete</button>
                 </td>
+                {% endif %}
             </tr>
         </div>
         {% endfor %}
@@ -81,11 +87,13 @@ Profile
     <form id="deleteform" action="/profile" method="post" style="display: none">
         <input hidden type="text" id="deleterowid" name="row_id">
     </form>
-    {% if message %}
-    <div>
-        <small class="text-success">{{ message }}</small>
-    </div>
-    {% endif %}
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <div class="text-center">
+            <small class="text-success">Message deleted. This action can <span class="text-danger">not</span> be reverted.</small>
+        </div>
+        {% endif %}
+    {% endwith %}
     <script>
         function deleteRow(rowid){
             document.getElementById('deleterowid').value = rowid;

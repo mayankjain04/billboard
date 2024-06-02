@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Support
+{% endblock %}
+
+{% block main %}
+    <h3 class="header text-primary text-center my-2">Thank you for reaching out {{session.get('username')}}!</h3>
+    <h5 class="header text-center">How may we help you today?</h5>
+    <div class="container my-3 p-3 mx-auto">
+        <div class="row align-items-center justify-content-center">
+            <div class="col-4">
+                <a>About Billboard</a>
+            </div>
+            <div class="col-4">
+                <a>About us</a>
+            </div>
+            <div class="col-auto">
+                <a>Contact us</a>
+            </div>           
+        </div>
+    </div>
+{% endblock %}
