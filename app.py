@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, session
+from flask import Flask, render_template, request, redirect, session, url_for, flash
 from flask_session import Session
 from helpers import login_required
 import pymysql
@@ -20,19 +20,6 @@ def get_db_connection():
     )
     return connection
 """
-# local connection
-host = 'localhost'
-user = 'root'
-password = 'local@123'
-db = 'Billboard'
-def get_db_connection():
-    connection = pymysql.connect(
-        host=host,
-        user=user,
-        password=password,
-        database=db
-    )
-    return connection
 
 # Configure session to use filesystem (instead of signed cookies)
 app.config["SESSION_PERMANENT"] = False
@@ -155,24 +142,23 @@ def profile():
             db.execute("DELETE FROM test WHERE id = %s", (request.form.get('row_id', '')))
             connection.commit()
             if request.form.get('NewName'):
-                print('change name')
                 db.execute("UPDATE users SET username = %s WHERE user_id = %s", (request.form.get('NewName'), session['user_id'], ))
                 connection.commit()
                 db.execute("UPDATE test SET username = %s WHERE username = %s", (request.form.get('NewName'), session['username'], ))
                 connection.commit()
                 session['username'] = request.form.get('NewName')
             if request.form.get('NewPass'):
-                print('change Pass')
                 db.execute("UPDATE users SET password = %s WHERE user_id = %s", (request.form.get('NewPass'), session['user_id'], ))
                 connection.commit()
-            print(request.form.get('row_id'))
-            return redirect('/profile')
+            flash("{{ request.form.get('row_id') }}")
+            return redirect(url_for('profile'))
         else:
             connection = get_db_connection()
             db = connection.cursor(pymysql.cursors.DictCursor)
-            db.execute("WITH allrows AS (SELECT Row_Number() OVER (ORDER BY id) AS row_id, id, username, text, time FROM test) SELECT * FROM allrows WHERE username = %s", (session['username']))
+            username = request.args.get('username') if request.args.get('username') else session['username']
+            db.execute("WITH allrows AS (SELECT Row_Number() OVER (ORDER BY id) AS row_id, id, username, text, time FROM test) SELECT * FROM allrows WHERE username = %s", (username,))
             table = db.fetchall()
-            message = request.form.get('deleterow')
+            message= request.args.get('message')
             return render_template("profile.html", table=table, message=message)
     finally:
         if 'db' in locals():
