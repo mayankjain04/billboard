@@ -10,6 +10,7 @@ host = 'Billboard.mysql.pythonanywhere-services.com'
 user = 'Billboard'
 password = 'local123'
 db = 'Billboard$default'
+Database connection details
 
 def get_db_connection():
     connection = pymysql.connect(
@@ -19,8 +20,6 @@ def get_db_connection():
         database=db
     )
     return connection
-
-
 
 # Configure session to use filesystem (instead of signed cookies)
 app.config["SESSION_PERMANENT"] = False
@@ -124,7 +123,8 @@ def register():
             connection.commit()
             session['user_id'] = result['user_id']
             session['username'] = username
-            return render_template('login.html', message="registered successfully")
+            return render_template('login.html', message="Registered successfully! Logged in as " + username)
+            return render_template('login.html', message="Registered successfully! Logged in as " + username)
         else:
             return render_template("register.html")
     finally:
@@ -143,6 +143,16 @@ def profile():
             db.execute("DELETE FROM test WHERE id = %s", (request.form.get('row_id', '')))
             connection.commit()
             if request.form.get('NewName'):
+                db.execute("SELECT user_id FROM users WHERE username = %s", (request.form.get('NewName'),))
+                result = db.fetchone()
+                if result:
+                    flash('username not available', 'duplicate_username')
+                    return redirect(url_for('profile'))
+                db.execute("SELECT user_id FROM users WHERE username = %s", (request.form.get('NewName'),))
+                result = db.fetchone()
+                if result:
+                    flash('username not available', 'duplicate_username')
+                    return redirect(url_for('profile'))
                 db.execute("UPDATE users SET username = %s WHERE user_id = %s", (request.form.get('NewName'), session['user_id'], ))
                 connection.commit()
                 db.execute("UPDATE test SET username = %s WHERE username = %s", (request.form.get('NewName'), session['username'], ))
@@ -151,15 +161,14 @@ def profile():
             if request.form.get('NewPass'):
                 db.execute("UPDATE users SET password = %s WHERE user_id = %s", (request.form.get('NewPass'), session['user_id'], ))
                 connection.commit()
-            flash("{{ request.form.get('row_id') }}")
-            return redirect(url_for('profile'))
+            return redirect(url_for('profile', rowdeleted='true'))
         else:
             connection = get_db_connection()
             db = connection.cursor(pymysql.cursors.DictCursor)
             username = request.args.get('username') if request.args.get('username') else session['username']
             db.execute("WITH allrows AS (SELECT Row_Number() OVER (ORDER BY id) AS row_id, id, username, text, time FROM test) SELECT * FROM allrows WHERE username = %s", (username,))
             table = db.fetchall()
-            message= request.args.get('message')
+            message= request.args.get('rowdeleted')
             return render_template("profile.html", table=table, message=message)
     finally:
         if 'db' in locals():

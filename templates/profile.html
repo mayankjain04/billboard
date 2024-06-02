@@ -14,91 +14,108 @@ Profile
 
 {% block main %}
 <div class="container-fluid text-center">
-    <h1 class="header text-success">Profile: {{ table[0]['username'] }}</h1>
+    <h1 class="header text-success">Profile: {{ table[0]['username'] if table else session['username'] }}</h1>
 </div>
-{% if session['username'] == table[0]['username'] %}
-<form action="/profile" style="border: 0;" id="NameChange" method="post" class="form-control w-auto mx-auto mt-3 p-2">
-    <div class="container">
-        <div class="row align-items-center justify-content-center">
-            <div class="col-auto">
-                <label for="username">Change username:</label>
-            </div>
-            <div class="col-auto">
-                <input required autocomplete="off" maxlength="20" class="form-control"
-                    type="text" id="NewName" name="NewName" value="{{ request.form.get('NewName', '') }}"
-                    placeholder="Username">
-            </div>
-            <div class="col-auto">
-                <button type="submit" class="btn btn-primary">Update</button>
-            </div>
-        </div>
-    </div>
-</form>
-<form action="/profile" style="border: 0;" id="NameChange" method="post" class="form-control w-auto mx-auto mt-3 p-2">
-    <div class="container">
-        <div class="row align-items-center justify-content-center">
-            <div class="col-auto">
-                <label for="password">Change Password:</label>
-            </div>
-            <div class="col-auto">
-                <input required autocomplete="off" minlength="6" class="form-control"
-                    type="password" id="NewPass" name="NewPass" value="{{ request.form.get('NewPass', '') }}"
-                    placeholder="Password">
-            </div>
-            <div class="col-auto">
-                <button type="submit" class="btn btn-primary">Update</button>
+{% if table %}
+    {% if session['username'] == table[0]['username'] %}
+    <form action="/profile" style="border: 0;" id="NameChange" method="post" class="form-control w-auto mx-auto mt-3 p-2">
+        <div class="container">
+            <div class="row align-items-center justify-content-center">
+                <div class="col-auto">
+                    <label for="username">Change username:</label>
+                </div>
+                <div class="col-auto">
+                    <input required autocomplete="off" maxlength="20" class="form-control" type="text" id="NewName"
+                        name="NewName" value="{{ request.form.get('NewName', '') }}" placeholder="Username">
+                </div>
+                <div class="col-auto">
+                    <button type="submit" class="btn btn-primary">Update</button>
+                </div>
             </div>
         </div>
-    </div>
-</form>
-{% endif %}
-
-</hr>
-<div class="container">
-    <table class="table text-center my-3 table-striped table-bordered">
-        <div class="row">
-            <tr>
-                <!-- Assuming table1 has columns 'id' and 'name' -->
-                <th class="thead col-1">S No</th>
-                <th class="thead col-2">Username</th>
-                <th class="thead col-auto">Text</th>
-                <th class="thead col-auto">Time</th>
-                {% if session['username'] == table[0]['username'] %}
-                <th class="thead col-auto">Delete</th>
-                {% endif %}
-            </tr>
-        </div>
-        {% for row in table %}
-        <div class="row">
-            <tr [class.golden-highlight]="row['username'] === 'admin'">
-                <td class="col-1">{{ row['row_id'] }}</td>
-                <td class="col-2">{{ row['username'] }}</td>
-                <td class="col-auto text-start">{{ row['text'] }}</td>
-                <td class="col-2">{{ row['time'] }}</td>
-                {% if session['username'] == table[0]['username'] %}
-                <td class="col-1">
-                    <button class="btn btn-outline-danger" type="button" onclick="deleteRow('{{ row['id'] }}')" id="deletebtn">Delete</button>
-                </td>
-                {% endif %}
-            </tr>
-        </div>
-        {% endfor %}
-    </table>
-    <form id="deleteform" action="/profile" method="post" style="display: none">
-        <input hidden type="text" id="deleterowid" name="row_id">
     </form>
-    {% with messages = get_flashed_messages() %}
-        {% if messages %}
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category, message in messages %}
+    {% if category=='duplicate_username' %}
+    <div class="text-center">
+        <small class="text-danger">{{ message }}</small>
+    </div>
+    {% endif %}
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+    <form action="/profile" style="border: 0;" id="NameChange" method="post" class="form-control w-auto mx-auto mt-3 p-2">
+        <div class="container">
+            <div class="row align-items-center justify-content-center">
+                <div class="col-auto">
+                    <label for="password">Change Password:</label>
+                </div>
+                <div class="col-auto">
+                    <input required autocomplete="off" minlength="6" class="form-control" type="password" id="NewPass"
+                        name="NewPass" value="{{ request.form.get('NewPass', '') }}" placeholder="Password">
+                </div>
+                <div class="col-auto">
+                    <button type="submit" class="btn btn-primary">Update</button>
+                </div>
+            </div>
+        </div>
+    </form>
+    {% endif %}
+
+    </hr>
+    <div class="container">
+        <table class="table text-center my-3 table-striped table-bordered">
+            <div class="row">
+                <tr>
+                    <!-- Assuming table1 has columns 'id' and 'name' -->
+                    <th class="thead col-1">S No</th>
+                    <th class="thead col-2">Username</th>
+                    <th class="thead col-auto">Text</th>
+                    <th class="thead col-1">Likes</th>
+                    {% if session['username'] == table[0]['username'] %}
+                    <th class="thead col-1">Delete</th>
+                    {% endif %}
+                </tr>
+            </div>
+            {% for row in table %}
+            <div class="row">
+                <tr [class.golden-highlight]="row['username'] === 'admin'">
+                    <td class="col-1">{{ row['row_id'] }}</td>
+                    <td class="col-2">{{ row['username'] }}</td>
+                    <td class="col-auto text-start">
+                        {{ row['text'] }} <br> <small><span class="text-muted">{{ row['time'] }}</span>
+                            <span>shares:0</span> <a href="/error"
+                                class="link-danger link-offset-2 link-opacity-85 link-underline-opacity-50 link-opacity-100-hover">Report</a></small>
+                    </td>
+                    <td class="col-1 text-muted text-small">
+                        0
+                    </td>
+                    {% if session['username'] == table[0]['username'] %}
+                    <td class="col-1">
+                        <button class="btn btn-outline-danger" type="button" onclick="deleteRow('{{ row['id'] }}')"
+                            id="deletebtn">Delete</button>
+                    </td>
+                    {% endif %}
+                </tr>
+            </div>
+            {% endfor %}
+        </table>
+        <form id="deleteform" action="/profile" method="post" style="display: none">
+            <input hidden type="text" id="deleterowid" name="row_id">
+        </form>
+        {% if message=='true' %}
         <div class="text-center">
-            <small class="text-success">Message deleted. This action can <span class="text-danger">not</span> be reverted.</small>
+            <small class="text-success">Message deleted. This action can <span class="text-danger">not</span> be
+                reverted.</small>
         </div>
         {% endif %}
-    {% endwith %}
-    <script>
-        function deleteRow(rowid){
-            document.getElementById('deleterowid').value = rowid;
-            document.getElementById('deleteform').submit();
-        }
-    </script>
-</div>
+    </div>
+{% endif %}
+<script>
+    function deleteRow(rowid) {
+        document.getElementById('deleterowid').value = rowid;
+        document.getElementById('deleteform').submit();
+    }
+</script>
 {% endblock %}
