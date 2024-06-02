@@ -32,10 +32,16 @@ IGEC Billboard
             </div>
             {% for row in table %}
             <div class="row">
-                <tr [class.golden-highlight]="row['username'] === 'admin'">
+                <tr>
                     <td class="col-1">{{ row['id'] }}</td>
-                    <td class="col-2">{{ row['username'] }}</td>
-                    <td class="col-auto text-start">{{ row['text'] }} <br> <small><span>{{ row['time'] }}</span>    <span>shares:0</span>   <span>report</span></small></td>
+                    <td class="col-2">
+                        <a class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" href="{{ url_for('profile', username=row['username']) if row['username'] != 'Anonymous' else '/error'}}">
+                            {{ row['username'] }}
+                        </a>
+                    </td>
+                    <td class="col-auto text-start">
+                        {{ row['text'] }} <br> <small><span>{{ row['time'] }}</span>    <span>shares:0</span>   <span>report</span></small>
+                    </td>
                     <td class="col-1 text-muted text-small">
                         0
                     </td>
