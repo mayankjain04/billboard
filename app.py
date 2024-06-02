@@ -185,9 +185,9 @@ def profile():
 def support():
     try:
         if request.method=='POST':
-            return render_template("profile.html")
+            return render_template("support.html")
         else:
-            return render_template("profile.html")
+            return render_template("support.html")
     finally:
         if 'db' in locals():
             db.close()
