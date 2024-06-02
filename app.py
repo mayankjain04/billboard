@@ -123,6 +123,7 @@ def register():
             session['user_id'] = result['user_id']
             session['username'] = username
             return render_template('login.html', message="Registered successfully! Logged in as " + username)
+            return render_template('login.html', message="Registered successfully! Logged in as " + username)
         else:
             return render_template("register.html")
     finally:
@@ -146,6 +147,11 @@ def profile():
                 if result:
                     flash('username not available', 'duplicate_username')
                     return redirect(url_for('profile'))
+                db.execute("SELECT user_id FROM users WHERE username = %s", (request.form.get('NewName'),))
+                result = db.fetchone()
+                if result:
+                    flash('username not available', 'duplicate_username')
+                    return redirect(url_for('profile'))
                 db.execute("UPDATE users SET username = %s WHERE user_id = %s", (request.form.get('NewName'), session['user_id'], ))
                 connection.commit()
                 db.execute("UPDATE test SET username = %s WHERE username = %s", (request.form.get('NewName'), session['username'], ))
@@ -155,12 +161,16 @@ def profile():
                 db.execute("UPDATE users SET password = %s WHERE user_id = %s", (request.form.get('NewPass'), session['user_id'], ))
                 connection.commit()
             return redirect(url_for('profile', rowdeleted='true'))
+            return redirect(url_for('profile', rowdeleted='true'))
         else:
             connection = get_db_connection()
             db = connection.cursor(pymysql.cursors.DictCursor)
             username = request.args.get('username') if request.args.get('username') else session['username']
             db.execute("WITH allrows AS (SELECT Row_Number() OVER (ORDER BY id) AS row_id, id, username, text, time FROM test) SELECT * FROM allrows WHERE username = %s", (username,))
             table = db.fetchall()
+            if not table:
+                return render_template("error.html", message="invalid user")
+            message= request.args.get('rowdeleted')
             if not table:
                 return render_template("error.html", message="invalid user")
             message= request.args.get('rowdeleted')
