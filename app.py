@@ -20,7 +20,19 @@ def get_db_connection():
     )
     return connection
 """
-
+# local connection
+host = 'localhost'
+user = 'root'
+password = 'local@123'
+db = 'Billboard'
+def get_db_connection():
+    connection = pymysql.connect(
+        host=host,
+        user=user,
+        password=password,
+        database=db
+    )
+    return connection
 
 # Configure session to use filesystem (instead of signed cookies)
 app.config["SESSION_PERMANENT"] = False
