@@ -9,7 +9,7 @@ IGEC Billboard
 <div class="alert-container">
     <div class="alert alert-success alert-dismissible fade show" role="alert">
         {% if message %}
-            <span class="text-success">{{ message }}</span>
+        <span class="text-success">{{ message }}</span>
         {% else %}
         Warning<span id="usernameSpan" class="text-danger"></span>: no moderation is done so continue on your own risk.
         strong and suggestive text may be present. You have been warned.
@@ -73,7 +73,7 @@ IGEC Billboard
             </div>
         </form>
         <a class="my-1 btn btn-primary" href="/login">{{"Log out" if 'user_id' in session else "Log in"}}</a>
-        <button class="my-1 btn btn-primary" id="scrollTop">Top</button>
+        <button style="position: fixed;" class="my-1 btn btn-primary" id="scrollTop">Top</button>
     </div>
 </div>
 <script>

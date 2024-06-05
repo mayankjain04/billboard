@@ -1,3 +1,12 @@
 .golden-highlight {
     background-color: gold;
 }
+#suggest {
+    width: 300px; /* Adjust the width as needed */
+    height: 150px; /* Adjust the height as needed */
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box; /* Ensures padding and border are included in the element's total width and height */
+}

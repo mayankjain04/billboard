@@ -10,7 +10,7 @@ host = 'Billboard.mysql.pythonanywhere-services.com'
 user = 'Billboard'
 password = 'local123'
 db = 'Billboard$default'
-Database connection details
+
 
 def get_db_connection():
     connection = pymysql.connect(
@@ -165,23 +165,28 @@ def profile():
         else:
             connection = get_db_connection()
             db = connection.cursor(pymysql.cursors.DictCursor)
-            username = request.args.get('username') if request.args.get('username') else session['username']
+            username = request.args.get('username')
             db.execute("WITH allrows AS (SELECT Row_Number() OVER (ORDER BY id) AS row_id, id, username, text, time FROM test) SELECT * FROM allrows WHERE username = %s", (username,))
             table = db.fetchall()
             message= request.args.get('rowdeleted')
-            return render_template("profile.html", table=table, message=message)
+            return render_template("profile.html",username=request.args.get('username'), table=table, message=message)
     finally:
         if 'db' in locals():
             db.close()
         if 'connection' in locals():
             connection.close
 
-@app.route("/support")
+@app.route("/support", methods=["GET", "POST"])
 @login_required
 def support():
     try:
         if request.method=='POST':
-            return render_template("support.html")
+            connection = get_db_connection()
+            db = connection.cursor(pymysql.cursors.DictCursor)
+            db.execute("INSERT INTO feedback (username, feedback) VALUES(%s, %s)", (session.get('username'), request.form.get('feedback')))
+            connection.commit()
+            flash('Response submitted successfully!', 'success')
+            return redirect("/support")
         else:
             return render_template("support.html")
     finally:
