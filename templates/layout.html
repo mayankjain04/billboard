@@ -10,12 +10,12 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
         integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
         crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
-        crossorigin="anonymous"></script>
-    {% block script %}
-    {% endblock %}
+    <link rel="apple-touch-icon" sizes="180x180" href="static/favicon_io_billboard/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="static/favicon_io_billboard/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="static/favicon_io_billboard/favicon-16x16.png">
+    <link rel="manifest" href="static/favicon_io_billboard/site.webmanifest">
     <link href="static/styles.css" rel="stylesheet">
+    <link href="static/light.css" id="theme" rel="stylesheet">
 
     <title>
         {% block title %}
@@ -24,46 +24,184 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-info">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">Billboard</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="/">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="/login">{{"Log out" if 'user_id' in session else "Log in"}}</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="/register">Register</a>
-                    </li>
-                    <li class="nav-item">
-                        <a id="scrollBottom" class="nav-link active" href="">Bottom</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="/support">Support</a>
+    <div class="background-container">
+        <div class="background-blur">
+        </div>
+    </div>
+    <div class="body-content">
+        <nav class="navbar navbar-expand-lg navbar-dark">
+            <div class="container-fluid ">
+                <a class="navbar-brand " href="/"><img id="logo" src="static/pics/logocropped.png" alt="Billboard"></a>
+                <ul class="navbar-nav ms-auto d-lg-none mb-2 mb-lg-0">
+                    <li class="nav-item d-flex align-items-center">
+                        <span class="bi me-2 pt-2 theme-icon icon custom-fade custom-show"></span>
+                        <div class="form-check form-switch pt-2">
+                            <input class="form-check-input theme-toggle theme-tooltip" type="checkbox" role="switch">
+                        </div>
                     </li>
                 </ul>
-                <a class="nav-link" href="{{ url_for('profile', username=session['username']) }}"><i class="bi bi-person"></i></a>
-                <!--
-                <form class="d-flex">
-                    <input class="form-control me-2" type="search" placeholder="Search">
-                    <button class="btn btn-outline-success" type="submit">Search</button>
-                 </form>
-                -->
+                <button class="navbar-toggler" type="button" data-toggle="collapse"
+                    data-target="#navbarSupportedContent">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/login">{{"Log out" if 'user_id' in session else "Log in"}}</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/register">Register</a>
+                        </li>
+                        <li class="nav-item">
+                            <a id="scrollBottom" class="nav-link " href="#">Bottom</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link"
+                                href="{{ url_for('support', username=session['username']) }}">Support</a>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item pe-2 d-none d-lg-block my-auto">
+                            <span class="bi theme-icon icon custom-fade custom-show"></span>
+                        </li>
+                        <li class="nav-item form-check form-switch d-none d-lg-block my-auto theme-tooltip">
+                            <input class="form-check-input theme-toggle" type="checkbox" role="switch">
+                        </li>
+                        <li class="nav-item mb-2 mb-lg-0">
+                            <a class="nav-link" href="{{ url_for('profile', username=session['username']) }}"><i
+                                    class="bi bi-person icon"></i></a>
+                        </li>
+                    </ul>
+                </div>
             </div>
-        </div>
-    </nav>
-    {% block main %}
-    {% endblock %}
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-        crossorigin="anonymous"></script>
+        </nav>
+        {% block main %}
+        {% endblock %}
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+            crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+            crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+        <script>
+            document.getElementById("scrollBottom").onclick = function () {
+                window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
+            };
+
+            // this script is for swithing themes/darkmode
+            document.addEventListener('DOMContentLoaded', (event) => {
+                var theme = document.getElementById("theme")
+                var themeSwitch = document.querySelectorAll(".theme-toggle")
+
+                if (localStorage.getItem("darkMode") === 'true') {
+                    theme.href = "static/dark.css";
+                    themeSwitch.forEach(function (s) {
+                        s.checked = true;
+                        document.querySelectorAll('.theme-icon').forEach(icon => {
+                            icon.classList.add('bi-moon')
+                            icon.classList.remove('bi-sun')
+                        });
+                    });
+                } else {
+                    theme.href = "static/light.css";
+                    themeSwitch.forEach(function (s) {
+                        s.checked = false;
+                        document.querySelectorAll('.theme-icon').forEach(icon => {
+                            icon.classList.add('bi-sun')
+                            icon.classList.remove('bi-moon')
+                        });
+
+                    });
+                }
+
+                themeSwitch.forEach(switchInstance => {
+                    switchInstance.addEventListener('change', function () {
+                        const isChecked = this.checked;
+
+                        if (isChecked) {
+                            theme.href = "static/dark.css";
+                            localStorage.setItem('darkMode', 'true');
+                            themeSwitch.forEach(function (s) {
+                                s.checked = true;
+                                document.querySelectorAll('.theme-icon').forEach(icon => {
+                                    icon.classList.remove('custom-show');
+                                    setTimeout(() => {
+                                        icon.classList.replace('bi-sun', 'bi-moon')
+                                        // toggleIcon(theme);
+                                        icon.classList.add('custom-show');
+                                    }, 250);
+                                });
+                            });
+                        } else {
+                            theme.href = "static/light.css";
+                            localStorage.setItem('darkMode', 'false');
+                            themeSwitch.forEach(function (s) {
+                                s.checked = false;
+                                document.querySelectorAll('.theme-icon').forEach(function (icon) {
+                                    icon.classList.remove('custom-show');
+                                    setTimeout(() => {
+                                        icon.classList.replace('bi-moon', 'bi-sun')
+                                        // toggleIcon(theme);
+                                        icon.classList.add('custom-show');
+                                    }, 250);
+                                });
+                            });
+                        }
+                    });
+                });
+            });
+            // this is for adding active class to active navbar links
+            document.addEventListener('DOMContentLoaded', (event) => {
+                const currentLocation = window.location.pathname;
+                const navLinks = document.querySelectorAll('.nav-link');
+
+                navLinks.forEach(link => {
+                    const href = link.getAttribute('href');
+                    if (href === '/' && currentLocation === '/') {
+                        link.classList.add('active');
+                    } else if (href.startsWith(currentLocation) && currentLocation !== '/') {
+                        link.classList.add('active');
+                    }
+                });
+            });
+
+            // this is for tooltips
+            document.addEventListener("DOMContentLoaded", function() {
+                var tooltipElementOne = document.querySelectorAll('.theme-tooltip');
+                tooltipElementOne.forEach(function (element) {
+                    var title = 'Darkmode'; 
+                    new bootstrap.Tooltip(element, {
+                        placement: 'bottom',
+                        fallbackPlacements: ['bottom-start', 'bottom-end', 'top', 'right', 'left'],
+                        title: title,
+                    });
+                });
+                var tooltipElementTwo = document.querySelectorAll('.bi-person');
+                tooltipElementTwo.forEach(function (element) {
+                    var title = 'Profile'; 
+                    new bootstrap.Tooltip(element, {
+                        placement: 'right',
+                        fallbackPlacements: [ 'bottom', 'bottom-start', 'bottom-end', 'top', 'right', 'left'],
+                        title: title,
+                    });
+                });
+            });
+        </script>
+        {% block script %}
+        {% endblock %}
+    </div>
 </body>
+
 </html>

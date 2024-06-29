@@ -5,67 +5,71 @@ Support
 {% endblock %}
 
 {% block main %}
-<h3 class="header text-primary text-center my-2">Thank you for reaching out {{session.get('username')}}!</h3>
-<h5 class="header text-center">How may we help you today?</h5>
+<h3 class="header text-blue text-center my-2">Thank you for reaching out {{session.get('username')}}!</h3>
+<h5 class="header text-center text-head">How may we help you today?</h5>
 
-<div class="container text-center my-3 p-3 mx-auto">
+<div class="container text-center my-3 p-3 mx-auto bg-clear">
     {% with messages = get_flashed_messages() %}
     {% if messages %}
     {% for message in messages %}
-    <small class="text-success">{{message}}</small>
+    {% if message != 'rowdeleted' %}
+    <div class="mb-3">
+        <small class="text-green">{{message }}</small>
+    </div>
+    {% endif %}
     {% endfor %}
     {% endif %}
     {% endwith %}
-    <div class="row text-center align-items-center justify-content-center">
+    <div class="row text-center align-items-center justify-content-center bg-clear">
         <div class="col-lg-3 col-sm-6">
-            <a href="#aboutsite">About Billboard</a>
+            <a class="link text-blue" href="#aboutsite">About Billboard</a>
         </div>
         <div class="col-lg-3 col-sm-6">
-            <a href="#aboutus">About us</a>
+            <a class="link text-blue" href="#aboutus">About us</a>
         </div>
         <div class="col-lg-3 col-sm-6">
-            <a href="#contact">Contact us</a>
+            <a class="link text-blue" href="#contact">Contact us</a>
         </div>
         <div class="col-lg-3 col-sm-6">
-            <a href="#suggest">Feedback/suggestions</a>
+            <a class="link text-blue" href="#suggest">Feedback/suggestions</a>
         </div>
     </div>
     <hr class="my-4">
     <div id="aboutsite" class="my-4 text-center p-3">
-        <p>
+        <p class="text-post">
             Billboard is a forum website where anyone can post and share messages for the world to see.
         </p>
-        <small class="text-muted">
+        <small class="text-post-fade">
             This site is under development.
         </small>
     </div>
     <hr class="my-4">
     <div id="aboutus" class="my-4 text-center p-3">
         <p>
-            <span class="text-dark">Founder: Mayank Jain</span><br>           
-            <span class="text-muted">Engineering student.<br>IT enthusiast.</span>
+            <span class="text-post">Founder: Mayank Jain</span><br>           
+            <span class="text-post-fade">Engineering student.<br>IT enthusiast.</span>
         </p>
     </div>
     <hr class="my-4">
     <div id="contact" class="my-4 text-center p-3">
         <ul>
             <p>
-                <span class="text-dark">Mayank Jain</span>
+                <span class="text-post">Mayank Jain</span>
                 <br>
-                <a class="link" href="https://www.linkedin.com/in/mayankjain04/">LinkedIn</a>
+                <a class="link text-blue" href="https://www.linkedin.com/in/mayankjain04/">LinkedIn</a>
                 <br>
-                <a class="link" href="https://github.com/mayankjain04/">GitHub</a>
+                <a class="link text-blue" href="https://github.com/mayankjain04/">GitHub</a>
             </p>
     </div>
     <hr class="my-4">
-    <form style="border: 0;" method="post" action="/support" class="form-control p-3 mx-auto w-auto text-center">
+    <form method="post" action="/support" class="form-control border-0 p-3 mx-auto w-auto text-center bg-clear">
         <div class="row justify-content-center align-items-center">
             <div class="col-lg-auto col-sm-12 my-2">
-                <label for="feedback" class="label"><span>Feedback form:</span></label>
+                <label for="feedback" class="label text-post-fade"><span>Feedback form:</span></label>
             </div>
             <div class="col-lg-auto col-sm-12">
                 <textarea required height="100" autocomplete="off" type="text" name="feedback" id="suggest"
-                    class="form-control mx-auto" placeholder="Your thoughts. You can also request to become a mod."></textarea>
+                    class="form-control mx-auto bg-faint text-post" placeholder="Your thoughts. You can also request to become a mod."></textarea>
             </div>
             <div class="col-lg-auto col-sm-12 my-2">
                 <input type="submit" class="btn btn-primary">

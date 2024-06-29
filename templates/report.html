@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+{% block title %}
+Report
+{% endblock %}
+{% block main %}
+<h3 class="header text-blue text-center my-2">Thank you for reaching out {{session.get('username')}}!</h3>
+<h5 class="header text-center text-head">Do you want this post removed from our board?</h5>
+
+<div class="container text-center my-3 p-3 mx-auto bg-clear">
+    <form style="border: 0;" method="post" action="/report"
+        class="form-control p-3 mx-auto w-auto text-center bg-clear">
+        <div class="row justify-content-center align-items-center">
+            <!-- <div class="col-lg-auto col-sm-12 my-2">
+                <label for="feedback" class="label"><span>Feedback form:</span></label>
+            </div> -->
+            <div>
+                <input type="number" value="{{post_id}}" name="post_id" class="form-control d-none">
+            </div>
+            <div class="col-lg-auto col-sm-12">
+                <textarea required height="100" autocomplete="off" type="text" name="post-report" id="post-report"
+                    class="form-control mx-auto w-auto bg-faint text-post"
+                    placeholder="What did you dislike about this post?"></textarea>
+            </div>
+            <div class="col-lg-auto col-sm-12 my-2">
+                <input type="submit" class="btn btn-primary">
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}

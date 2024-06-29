@@ -2,17 +2,32 @@
 
 *[Billboard](https://billboard.pythonanywhere.com) is a forum website created by @mayankjain04 using flask. It has a simple and user-friendly interface while maintaining some useful and advanced features.*
 
+## Features
 Currently these features are implemented:
-* Easy to use navigation features.
-* An anonymous forum for posting text messages.
-* register and login pages
-* unique usernames
-* Profile pages, profile viewing
+
+### Early access
+   * Easy to use navigation features.
+   * An anonymous forum for posting text messages.
+### Update 1.1
+   * register and login pages
+   * unique usernames
+   * Profile pages, profile viewing
+   * Update username/password
+### Update 1.2
+   * Themes - Light, Dark
+   * major layout enhancements
+   * Report posts and feedback/support for removal
+   * increased interactiveness
 
 These features are yet to be implemented:
+* Like/dislike counts
+* share and metion
+* online users
+* Data saving mode
+* Theme customization
+* Monochrome mode/theme
 * special username privileges like flair and highlights
 * censoring certain words and phrases
-* support for removal
 * account deletion.
 
 ## Quickstart

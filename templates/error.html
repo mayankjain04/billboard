@@ -4,5 +4,6 @@
 ERROR
 {% endblock %}
 {% block main %}
-    <h1 class="header text-warning text-center my-2">{{message | default("feature not available")}}</h1>
+    <h2 class="h2 header text-shadow-dark text-warning my-2">Something went wrong!</h2>
+    <h5 class="h5 header text-post my-3">{{message | default("You may want to write us in feedback section about the trouble you are having.")}}</h5>
 {% endblock %}

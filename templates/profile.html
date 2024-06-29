@@ -14,106 +14,120 @@ Profile
 
 {% block main %}
 <div class="container-fluid text-center">
-    <h1 class="header text-success">Profile: {{ username }}</h1>
+    <h1 class="header text-green">Profile: {{ username }}</h1>
 </div>
-    {% if session['username'] == username %}
-    <form action="/profile" style="border: 0;" id="NameChange" method="post" class="form-control w-auto mx-auto mt-3 p-2">
-        <div class="container">
-            <div class="row align-items-center justify-content-center">
-                <div class="col-auto">
-                    <label for="username">Change username:</label>
-                </div>
-                <div class="col-auto">
-                    <input required autocomplete="off" maxlength="20" class="form-control" type="text" id="NewName"
-                        name="NewName" value="{{ request.form.get('NewName', '') }}" placeholder="Username">
-                </div>
-                <div class="col-auto">
-                    <button type="submit" class="btn btn-primary">Update</button>
-                </div>
+{% if session['username'] == username %}
+<form action="/profile" id="NameChange" method="post" class="form-control border-0 w-auto mx-auto mt-3 p-2 bg-clear">
+    <div class="container">
+        <div class="row align-items-center justify-content-center">
+            <div class="col-auto text-post-fade">
+                <label for="username">Change username:</label>
+            </div>
+            <div class="col-auto">
+                <input required autocomplete="off" maxlength="20" class="form-control bg-faint text-post" type="text"
+                    id="NewName" name="NewName" value="{{ request.form.get('NewName', '') }}" placeholder="Username">
+            </div>
+            <div class="col-auto">
+                <button type="submit" class="btn btn-primary mt-3">Update</button>
             </div>
         </div>
-    </form>
-    {% with messages = get_flashed_messages(with_categories=true) %}
-    {% if messages %}
-    {% for category, message in messages %}
-    {% if category=='duplicate_username' %}
-    <div class="text-center">
-        <small class="text-danger">{{ message }}</small>
     </div>
-    {% endif %}
-    {% endfor %}
-    {% endif %}
-    {% endwith %}
-    <form action="/profile" style="border: 0;" id="NameChange" method="post" class="form-control w-auto mx-auto mt-3 p-2">
-        <div class="container">
-            <div class="row align-items-center justify-content-center">
-                <div class="col-auto">
-                    <label for="password">Change Password:</label>
-                </div>
-                <div class="col-auto">
-                    <input required autocomplete="off" minlength="6" class="form-control" type="password" id="NewPass"
-                        name="NewPass" value="{{ request.form.get('NewPass', '') }}" placeholder="Password">
-                </div>
-                <div class="col-auto">
-                    <button type="submit" class="btn btn-primary">Update</button>
-                </div>
+</form>
+<form action="/profile" id="NameChange" method="post" class="form-control border-0 w-auto mx-auto mt-3 p-2 bg-clear">
+    <div class="container">
+        <div class="row align-items-center justify-content-center">
+            <div class="col-auto text-post-fade">
+                <label for="password">Change Password:</label>
+            </div>
+            <div class="col-auto">
+                <input required autocomplete="off" minlength="6" class="form-control bg-faint text-post" type="password"
+                    id="NewPass" name="NewPass" value="{{ request.form.get('NewPass', '') }}" placeholder="Password">
+            </div>
+            <div class="col-auto">
+                <button type="submit" class="btn btn-primary mt-3">Update</button>
             </div>
         </div>
-    </form>
-    {% endif %}
+    </div>
+</form>
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+{% for message in messages %}
+{% if message != 'rowdeleted' %}
+<div class="text-center">
+    <small class="text-green">{{ message }}</small>
+</div>
+{% endif %}
+{% endfor %}
+{% endif %}
+{% endwith %}
+{% endif %}
 
 {% if table %}
-    </hr>
-    <div class="container">
-        <table class="table text-center my-3 table-striped table-bordered">
-            <div class="row">
-                <tr>
-                    <!-- Assuming table1 has columns 'id' and 'name' -->
-                    <th class="thead col-1">S No</th>
-                    <th class="thead col-2">Username</th>
-                    <th class="thead col-auto">Text</th>
-                    <th class="thead col-1">Likes</th>
-                    {% if session['username'] == table[0]['username'] %}
-                    <th class="thead col-1">Delete</th>
-                    {% endif %}
-                </tr>
-            </div>
-            {% for row in table %}
-            <div class="row">
-                <tr [class.golden-highlight]="row['username'] === 'admin'">
-                    <td class="col-1">{{ row['row_id'] }}</td>
-                    <td class="col-2">{{ row['username'] }}</td>
-                    <td class="col-auto text-start">
-                        {{ row['text'] }} <br> <small><span class="text-muted">{{ row['time'] }}</span>
-                            <span>shares:0</span> <a href="/error"
-                                class="link-danger link-offset-2 link-opacity-85 link-underline-opacity-50 link-opacity-100-hover">Report</a></small>
-                    </td>
-                    <td class="col-1 text-muted text-small">
-                        0
-                    </td>
-                    {% if session['username'] == table[0]['username'] %}
-                    <td class="col-1">
-                        <button class="btn btn-outline-danger" type="button" onclick="deleteRow('{{ row['id'] }}')"
-                            id="deletebtn">Delete</button>
-                    </td>
-                    {% endif %}
-                </tr>
-            </div>
-            {% endfor %}
-        </table>
-        <form id="deleteform" action="/profile" method="post" style="display: none">
-            <input hidden type="text" id="deleterowid" name="row_id">
-        </form>
-        {% if message=='true' %}
-        <div class="text-center">
-            <small class="text-success">Message deleted. This action can <span class="text-danger">not</span> be
-                reverted.</small>
-        </div>
-        {% endif %}
-    </div>
+</hr>
+<div class="container bg-clear">
+    <table class="table text-center my-3 table-striped table-bordered">
+        <thead>
+            <tr>
+                <!-- Assuming table1 has columns 'id' and 'name' -->
+                <th class="thead col-1 text-head">No</th>
+                <th class="thead col-2 text-head">Username</th>
+                <th class="thead col-auto text-head">Post</th>
+                <!-- <th class="thead col-1 text-head">Likes</th> -->
+                {% if session['username'] == table[0]['username'] %}
+                <th class="thead col-1 text-head">Delete</th>
+                {% endif %}
+            </tr>
+        </thead>
+        {% for row in table %}
+        <tbody>
+            <tr>
+                <td class="col-1">
+                    <p class="text-post">{{ row['id'] }}</p>
+                </td>
+                <td class="col-2">
+                    <p class="username-style-link">{{ row['username'] }}</p>
+                </td>
+                <td class="col-auto text-start">
+                    <div class="text-post">{{ row['text'] }} <br>
+                        <small><span class="text-post-fade">{{ row['time'] }}</span>
+                            <a href="/error"
+                                class="text-red link-offset-2 link-opacity-85 link-underline-opacity-50 link-opacity-100-hover">Report</a>
+                        </small>
+                    </div>
+                </td>
+                <!-- <td class="col- text-small">
+                    <p class="text-post">0</p>
+                </td> -->
+                {% if session['username'] == table[0]['username'] %}
+                <td class="col-1">
+                    <button class="btn btn-outline-danger" type="button" onclick="deleteRow('{{ row['id'] }}')"
+                        id="deletebtn">Delete</button>
+                </td>
+                {% endif %}
+            </tr>
+        </tbody>
+        {% endfor %}
+    </table>
+    <form id="deleteform" class="d-none form-control bg-clear" action="/profile" method="post">
+        <input hidden type="text" id="deleterowid" name="row_id">
+    </form>
+</div>
 {% else %}
-<p class="text-center text-dark mx-auto my-3">{{"You have" if username == session['username'] else username + " has"}} not posted anything yet.</p>
+<p class="text-center text-post-fade mx-auto my-3">{{"You have" if username == session['username'] else username + "
+    has"}} not posted anything yet.</p>
 {% endif %}
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+{% for message in messages %}
+{% if message == 'rowdeleted' %}
+    <div class="text-center">
+        <small class="text-green">Message deleted. This action can <span class="text-red">not</span> be
+            reverted.</small>
+    </div>
+{% endif %}
+{% endfor %}
+{% endif %}
+{% endwith %}
 <script>
     function deleteRow(rowid) {
         document.getElementById('deleterowid').value = rowid;
