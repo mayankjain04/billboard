@@ -83,120 +83,19 @@
         <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
             crossorigin="anonymous"></script> -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
             crossorigin="anonymous"></script>
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
             integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
             crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
-            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
             crossorigin="anonymous"></script>
-        <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
             integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-            crossorigin="anonymous"></script> -->
-        <script>
-            document.getElementById("scrollBottom").onclick = function () {
-                window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
-            };
-
-            // this script is for swithing themes/darkmode
-            document.addEventListener('DOMContentLoaded', (event) => {
-                var theme = document.getElementById("theme")
-                var themeSwitch = document.querySelectorAll(".theme-toggle")
-
-                if (localStorage.getItem("darkMode") === 'true') {
-                    theme.href = "static/dark.css";
-                    themeSwitch.forEach(function (s) {
-                        s.checked = true;
-                        document.querySelectorAll('.theme-icon').forEach(icon => {
-                            icon.classList.add('bi-moon')
-                            icon.classList.remove('bi-sun')
-                        });
-                    });
-                } else {
-                    theme.href = "static/light.css";
-                    themeSwitch.forEach(function (s) {
-                        s.checked = false;
-                        document.querySelectorAll('.theme-icon').forEach(icon => {
-                            icon.classList.add('bi-sun')
-                            icon.classList.remove('bi-moon')
-                        });
-
-                    });
-                }
-
-                themeSwitch.forEach(switchInstance => {
-                    switchInstance.addEventListener('change', function () {
-                        const isChecked = this.checked;
-
-                        if (isChecked) {
-                            theme.href = "static/dark.css";
-                            localStorage.setItem('darkMode', 'true');
-                            themeSwitch.forEach(function (s) {
-                                s.checked = true;
-                                document.querySelectorAll('.theme-icon').forEach(icon => {
-                                    icon.classList.remove('custom-show');
-                                    setTimeout(() => {
-                                        icon.classList.replace('bi-sun', 'bi-moon')
-                                        icon.classList.add('custom-show');
-                                    }, 250);
-                                });
-                            });
-                        } else {
-                            theme.href = "static/light.css";
-                            localStorage.setItem('darkMode', 'false');
-                            themeSwitch.forEach(function (s) {
-                                s.checked = false;
-                                document.querySelectorAll('.theme-icon').forEach(function (icon) {
-                                    icon.classList.remove('custom-show');
-                                    setTimeout(() => {
-                                        icon.classList.replace('bi-moon', 'bi-sun')
-                                        icon.classList.add('custom-show');
-                                    }, 250);
-                                });
-                            });
-                        }
-                    });
-                });
-            });
-            // this is for adding active class to active navbar links
-            document.addEventListener('DOMContentLoaded', (event) => {
-                const currentLocation = window.location.pathname;
-                const navLinks = document.querySelectorAll('.nav-link');
-
-                navLinks.forEach(link => {
-                    const href = link.getAttribute('href');
-                    if (href === '/' && currentLocation === '/') {
-                        link.classList.add('active');
-                    } else if (href.startsWith(currentLocation) && currentLocation !== '/') {
-                        link.classList.add('active');
-                    }
-                });
-            });
-
-            // this is for tooltips
-            document.addEventListener("DOMContentLoaded", function() {
-                var tooltipElementOne = document.querySelectorAll('.theme-tooltip');
-                tooltipElementOne.forEach(function (element) {
-                    var title = 'Darkmode'; 
-                    new bootstrap.Tooltip(element, {
-                        placement: 'bottom',
-                        fallbackPlacements: ['bottom-start', 'bottom-end', 'top', 'right', 'left'],
-                        title: title,
-                    });
-                });
-                var tooltipElementTwo = document.querySelectorAll('.bi-person');
-                tooltipElementTwo.forEach(function (element) {
-                    var title = 'Profile'; 
-                    new bootstrap.Tooltip(element, {
-                        placement: 'right',
-                        fallbackPlacements: [ 'bottom', 'bottom-start', 'bottom-end', 'top', 'right', 'left'],
-                        title: title,
-                    });
-                });
-            });
-        </script>
+            crossorigin="anonymous"></script>
+        <script src="{{ url_for('static', filename='scripts/layout.js') }}"></script>
         {% block script %}
         {% endblock %}
     </div>

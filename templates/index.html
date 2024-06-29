@@ -85,23 +85,12 @@ Billboard
     </div>
 </div>
 <button class="btn btn-top rounded-circle p-3" id="scrollTop">Top</button>
+<script src="{{ url_for('static', filename='scripts/index.js') }}"></script>
 <script>
-    // this jquery code is for alert
-    $(document).ready(function () {
-        window.setTimeout(function () {
-            $(".alert").alert('close');
-        }, 15000);
-    });
-
     //dynamically using username values
     var usernameval = '{{session["username"] if "username" in session else "Anonymous"}}'
     document.getElementById("username").value = usernameval;
     document.getElementById("username").placeholder = usernameval;
     document.getElementById("usernameSpan").innerText = '{{" " + session["username"] if "username" in session else ""}}';
-
-    // this code is for strollTop
-    document.getElementById("scrollTop").onclick = function () {
-        window.scrollTo({ top: 0, behavior: "smooth" });
-    };
 </script>
 {% endblock %}
