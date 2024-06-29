@@ -1,0 +1,11 @@
+1. www.pythonanywhere.com
+    Thank you to pythonanywhere for the free hosting services.
+2. Lorem Picsum and Unsplash
+    Thank you to picsum for providing such wonderful non-copyright images that are used as background in my webapp.
+3. Bootstrap organization
+    This project has only been made possible with the help of vast libraries and utilities provided by bootstrap.
+4. ChatGPT
+    ChatGPT has helped me whenever i got stuck, more times than i can count. Using AI to teach myself stuff was both fun and
+    productive. It even guided me to other resources and documentations that i found useful.
+5. CS50, David and Carter, and Brian Yu for the section.
+    Thank you everyone for teaching this amazing course.
