@@ -17,7 +17,7 @@ Profile
     <h1 class="header text-green">Profile: {{ username }}</h1>
 </div>
 {% if session['username'] == username %}
-<form action="/profile" id="NameChange" method="post" class="form-control border-0 w-auto mx-auto mt-3 p-2 bg-clear">
+<form action="/profile" method="post" class="form-control border-0 w-auto mx-auto mt-3 p-2 bg-clear">
     <div class="container">
         <div class="row align-items-center justify-content-center">
             <div class="col-auto text-post-fade">
@@ -33,7 +33,7 @@ Profile
         </div>
     </div>
 </form>
-<form action="/profile" id="NameChange" method="post" class="form-control border-0 w-auto mx-auto mt-3 p-2 bg-clear">
+<form action="/profile" method="post" class="form-control border-0 w-auto mx-auto mt-3 p-2 bg-clear">
     <div class="container">
         <div class="row align-items-center justify-content-center">
             <div class="col-auto text-post-fade">
@@ -68,7 +68,6 @@ Profile
     <table class="table text-center my-3 table-striped table-bordered">
         <thead>
             <tr>
-                <!-- Assuming table1 has columns 'id' and 'name' -->
                 <th class="thead col-1 text-head">No</th>
                 <th class="thead col-2 text-head">Username</th>
                 <th class="thead col-auto text-head">Post</th>
@@ -95,7 +94,8 @@ Profile
                         </small>
                     </div>
                 </td>
-                <!-- <td class="col- text-small">
+                <!--  Likes are yet to be implemented
+                <td class="col- text-small">
                     <p class="text-post">0</p>
                 </td> -->
                 {% if session['username'] == table[0]['username'] %}

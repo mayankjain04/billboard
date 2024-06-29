@@ -41,7 +41,7 @@
                     </li>
                 </ul>
                 <button class="navbar-toggler" type="button" data-toggle="collapse"
-                    data-target="#navbarSupportedContent">
+                    data-target="#navbarSupportedContent" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -139,7 +139,6 @@
                                     icon.classList.remove('custom-show');
                                     setTimeout(() => {
                                         icon.classList.replace('bi-sun', 'bi-moon')
-                                        // toggleIcon(theme);
                                         icon.classList.add('custom-show');
                                     }, 250);
                                 });
@@ -153,7 +152,6 @@
                                     icon.classList.remove('custom-show');
                                     setTimeout(() => {
                                         icon.classList.replace('bi-moon', 'bi-sun')
-                                        // toggleIcon(theme);
                                         icon.classList.add('custom-show');
                                     }, 250);
                                 });

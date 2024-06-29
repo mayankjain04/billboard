@@ -86,11 +86,14 @@ Billboard
 </div>
 <button class="btn btn-top rounded-circle p-3" id="scrollTop">Top</button>
 <script>
+    // this jquery code is for alert
     $(document).ready(function () {
         window.setTimeout(function () {
             $(".alert").alert('close');
         }, 15000);
     });
+
+    //dynamically using username values
     var usernameval = '{{session["username"] if "username" in session else "Anonymous"}}'
     document.getElementById("username").value = usernameval;
     document.getElementById("username").placeholder = usernameval;
