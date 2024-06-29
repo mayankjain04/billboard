@@ -4,6 +4,7 @@ from flask_session import Session
 from helpers import login_required
 import pymysql
 from contextlib import contextmanager
+from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import timedelta
 
 app = Flask(__name__)
@@ -78,11 +79,11 @@ def login():
             password = request.form.get("password")
             with get_db_connection() as connection:
                 with connection.cursor(pymysql.cursors.DictCursor) as cursor:  # Use DictCursor to get dictionaries instead of tuples
-                    cursor.execute("SELECT user_id, password FROM users WHERE username = %s", (username,))
+                    cursor.execute("SELECT user_id, pw_hash FROM users WHERE username = %s", (username,))
                     result = cursor.fetchone()
                     if not result:
                         return render_template("login.html", message="user not registered")
-                    if not result['password'] == password:
+                    if not check_password_hash(result['pw_hash'], password):
                         return render_template("login.html", message="incorrect password")
                     session['user_id'] = result['user_id']
                     session['username'] = username
@@ -111,7 +112,8 @@ def register():
                     result = cursor.fetchone()
                     if result:
                         return render_template("register.html", message="username not available")
-                    cursor.execute("INSERT INTO users (username, password) VALUES (%s, %s)", (username, password))
+                    hashed_pw = generate_password_hash(password)
+                    cursor.execute("INSERT INTO users (username, pw_hash) VALUES (%s, %s)", (username, hashed_pw))
                     connection.commit()
                     cursor.execute("SELECT user_id FROM users WHERE username = %s", (username,))
                     result = cursor.fetchone()
@@ -148,7 +150,8 @@ def profile():
                         flash('Username changed successfully!')
                         return redirect(url_for('profile'))
                     if request.form.get('NewPass'):
-                        cursor.execute("UPDATE users SET password = %s WHERE user_id = %s", (request.form.get('NewPass'), session['user_id'], ))
+                        hashed_pw = generate_password_hash(request.form.get('NewPass'))
+                        cursor.execute("UPDATE users SET pw_hash = %s WHERE user_id = %s", (hashed_pw, session['user_id'], ))
                         connection.commit()
                         flash('Password changed successfully!')
                         return redirect(url_for('profile'))
@@ -179,12 +182,12 @@ def support():
 @login_required
 def report():
     if request.method == "POST":
-        post_id = request.form.get("post_id", "error2")
+        post_id = request.form.get("post_id", "")
         if not post_id:
             return redirect('/error')
         with get_db_connection() as connection:
             with connection.cursor(pymysql.cursors.DictCursor) as cursor:  # Use DictCursor to get dictionaries instead of tuples
-                cursor.execute("INSERT INTO feedback (username, feedback) VALUES(%s, %s)", (session.get('username'), request.form.get('post-report', 'error/html bypassed'))) # the error will only show if user somehow submitted an empty report.
+                cursor.execute("INSERT INTO feedback (username, feedback, post_id) VALUES(%s, %s, %s)", (session.get('username'), request.form.get('post-report', 'error/html bypassed'), post_id)) # the error will only show if user somehow submitted an empty report.
                 connection.commit()
         return redirect("/")
     else:
