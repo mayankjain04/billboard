@@ -10,10 +10,10 @@ from datetime import timedelta
 app = Flask(__name__)
 
 # Database connection details
-host = 'Billboard.mysql.pythonanywhere-services.com'
-user = 'Billboard'
-password = 'local123'
-db = 'Billboard$default'
+host = 'localhost'
+user = 'root'
+password = "local@123"
+db = 'billboard'
 
 @contextmanager
 def get_db_connection():
@@ -29,7 +29,7 @@ def get_db_connection():
         if 'db' in locals():
             db.close()
         connection.close()
-    
+
 
 # Configure session to use filesystem (instead of signed cookies)
 app.config["SESSION_PERMANENT"] = False
