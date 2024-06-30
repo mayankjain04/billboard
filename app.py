@@ -12,7 +12,7 @@ app = Flask(__name__)
 # Database connection details
 host = 'localhost'
 user = 'root'
-password = "local@123"
+password = ""
 db = 'billboard'
 
 @contextmanager
