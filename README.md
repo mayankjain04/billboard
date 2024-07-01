@@ -2,7 +2,8 @@
 
 *[Billboard](https://billboard.pythonanywhere.com) is a forum website created by @mayankjain04 using flask. It has a simple and user-friendly interface while maintaining some useful and advanced features.*
 
-## Video Demo: 
+## Video Demo:
+https://youtu.be/makNsrpP8nk?si=4gBAKVTkxwI5qZjw
 
 ## Description:
    This Project is built using flask, so the `app.py` file handles the backend and routing. `templates` folder contains the html files and their css is stored in `static` folder. `helpers.py` has some helper functions that are imported in `app.py`. `templates/layout.html` is the layout file that is extended by other html files through jinja2. 
